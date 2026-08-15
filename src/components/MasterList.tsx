@@ -32,7 +32,10 @@ export const MasterList = () => {
 
       <div className="min-h-0 flex-1 overflow-y-auto px-2">
         {productsByCategory.map((category) => (
-          <section key={category.id} aria-labelledby={`category-${category.id}`}>
+          <section
+            key={category.id}
+            aria-labelledby={`category-${category.id}`}
+          >
             <h2
               id={`category-${category.id}`}
               className="sticky top-0 z-10 bg-white px-3 pb-1 pt-4 text-[11px] font-semibold tracking-[0.18em] text-muted uppercase"
