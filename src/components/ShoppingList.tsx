@@ -57,7 +57,7 @@ export const ShoppingList = () => {
         })}
       </ul>
 
-      {hasBoughtItems ? (
+      {hasBoughtItems && (
         <div className="shrink-0 px-4 pt-3 pb-3">
           <button
             type="button"
@@ -67,7 +67,7 @@ export const ShoppingList = () => {
             Clear Completed
           </button>
         </div>
-      ) : null}
+      )}
     </section>
   );
 };
