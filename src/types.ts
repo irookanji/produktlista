@@ -1,6 +1,6 @@
 export type TabId = "master" | "shopping";
 
-export type ProductCategory =
+type ProductCategory =
   | "produce"
   | "fruits"
   | "dairy"
@@ -10,6 +10,11 @@ export type ProductCategory =
   | "frozen"
   | "beverages"
   | "snacks";
+
+export type ProductCategoryMeta = {
+  readonly id: ProductCategory;
+  readonly label: string;
+};
 
 export type Product = {
   readonly id: string;

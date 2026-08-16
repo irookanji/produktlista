@@ -1,9 +1,6 @@
-import type { Product, ProductCategory } from "../types.ts";
+import type { Product, ProductCategoryMeta } from "../types.ts";
 
-const PRODUCT_CATEGORIES: {
-  id: ProductCategory;
-  label: string;
-}[] = [
+const PRODUCT_CATEGORIES = [
   { id: "produce", label: "Produce" },
   { id: "fruits", label: "Fruits" },
   { id: "dairy", label: "Dairy & Eggs" },
@@ -13,9 +10,9 @@ const PRODUCT_CATEGORIES: {
   { id: "frozen", label: "Frozen" },
   { id: "beverages", label: "Beverages" },
   { id: "snacks", label: "Snacks" },
-];
+] satisfies ReadonlyArray<ProductCategoryMeta>;
 
-export const products: Product[] = [
+export const products = [
   {
     id: "salad",
     name: "Salad (Mixed Greens) - Fresh",
@@ -209,7 +206,7 @@ export const products: Product[] = [
 
   { id: "goodies", name: "Goodies (Sweets)", icon: "🍪", category: "snacks" },
   { id: "chips", name: "Chips", icon: "🍟", category: "snacks" },
-];
+] satisfies ReadonlyArray<Product>;
 
 export const productsByCategory = PRODUCT_CATEGORIES.map((category) => ({
   ...category,
