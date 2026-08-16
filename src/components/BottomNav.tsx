@@ -76,7 +76,7 @@ export const BottomNav = () => {
             key={tab.id}
             type="button"
             aria-current={isActive ? "page" : undefined}
-            className="flex h-[4.75rem] flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-ink"
+            className="flex h-19 flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-ink"
             onClick={() => setActiveTab(tab.id)}
           >
             <span
