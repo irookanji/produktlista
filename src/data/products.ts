@@ -154,6 +154,12 @@ export const products = [
     icon: "🥖",
     category: "bakery",
   },
+  {
+    id: "dough",
+    name: "Dough",
+    icon: "🫓",
+    category: "bakery",
+  },
 
   {
     id: "pasta",
@@ -199,6 +205,30 @@ export const products = [
     icon: "🍚",
     category: "pantry",
   },
+  {
+    id: "ketchup",
+    name: "Ketchup",
+    icon: "🍅",
+    category: "pantry",
+  },
+  {
+    id: "jam",
+    name: "Jam",
+    icon: "🍓",
+    category: "pantry",
+  },
+  {
+    id: "lentils",
+    name: "Lentils",
+    icon: "🫘",
+    category: "pantry",
+  },
+  {
+    id: "chia-seeds",
+    name: "Chia Seeds",
+    icon: "🌱",
+    category: "pantry",
+  },
 
   {
     id: "frozen-meatballs",
@@ -210,6 +240,18 @@ export const products = [
     id: "frozen-vegetables",
     name: "Frozen Vegetables - Mixed",
     icon: "🧊",
+    category: "frozen",
+  },
+  {
+    id: "frozen-potatoes",
+    name: "Frozen Potatoes",
+    icon: "🥔",
+    category: "frozen",
+  },
+  {
+    id: "ice-cream",
+    name: "Ice Cream",
+    icon: "🍦",
     category: "frozen",
   },
 
@@ -237,6 +279,12 @@ export const products = [
     icon: "🍇",
     category: "snacks",
   },
+  {
+    id: "nuts",
+    name: "Nuts",
+    icon: "🥜",
+    category: "snacks",
+  },
 
   {
     id: "toilet-paper",
@@ -259,6 +307,36 @@ export const products = [
   {
     id: "liquid-laundry-detergent",
     name: "Liquid Laundry Detergent",
+    icon: "🧴",
+    category: "household",
+  },
+  {
+    id: "liquid-hand-soap",
+    name: "Liquid Hand Soap",
+    icon: "🧼",
+    category: "household",
+  },
+  {
+    id: "toothpaste",
+    name: "Toothpaste",
+    icon: "🦷",
+    category: "household",
+  },
+  {
+    id: "soap-bar",
+    name: "Soap Bar",
+    icon: "🧼",
+    category: "household",
+  },
+  {
+    id: "shower-gel",
+    name: "Shower Gel",
+    icon: "🧴",
+    category: "household",
+  },
+  {
+    id: "shampoo",
+    name: "Shampoo",
     icon: "🧴",
     category: "household",
   },
