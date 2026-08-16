@@ -30,3 +30,7 @@ body {
 button {
   font-family: inherit;
 }
+
+.touch-callout-none {
+  -webkit-touch-callout: none;
+}

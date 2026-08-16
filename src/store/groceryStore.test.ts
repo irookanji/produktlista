@@ -8,6 +8,7 @@ import {
   loadShoppingItems,
   persistShoppingItems,
   removeShoppingItem,
+  reorderShoppingItems,
   resetStore,
   STORAGE_KEY,
   selectedIds$,
@@ -85,6 +86,61 @@ describe("groceryStore", () => {
       sortedShoppingItems$.value.find((item) => item.productId === "bread")
         ?.bought,
     ).toBe(true);
+  });
+
+  test("reorders items and persists the new order", () => {
+    toggleSelected("bread");
+    toggleSelected("milk");
+    toggleSelected("eggs");
+    addSelectedToShoppingList();
+
+    reorderShoppingItems(0, 2);
+
+    expect(shoppingItems$.value.map((item) => item.productId)).toEqual([
+      "milk",
+      "eggs",
+      "bread",
+    ]);
+    expect(
+      JSON.parse(globalThis.localStorage.getItem(STORAGE_KEY) ?? "[]"),
+    ).toEqual([
+      { productId: "milk", bought: false },
+      { productId: "eggs", bought: false },
+      { productId: "bread", bought: false },
+    ]);
+  });
+
+  test("reorders remaining items without mixing bought items", () => {
+    toggleSelected("bread");
+    toggleSelected("milk");
+    toggleSelected("eggs");
+    addSelectedToShoppingList();
+    toggleBought("bread");
+
+    reorderShoppingItems(0, 1);
+
+    expect(sortedShoppingItems$.value.map((item) => item.productId)).toEqual([
+      "eggs",
+      "milk",
+      "bread",
+    ]);
+    expect(
+      sortedShoppingItems$.value.find((item) => item.productId === "bread")
+        ?.bought,
+    ).toBe(true);
+  });
+
+  test("ignores out-of-range reorder indices", () => {
+    toggleSelected("bread");
+    toggleSelected("milk");
+    addSelectedToShoppingList();
+
+    const original = shoppingItems$.value;
+    reorderShoppingItems(-1, 0);
+    reorderShoppingItems(0, 9);
+    reorderShoppingItems(0, 0);
+
+    expect(shoppingItems$.value).toEqual(original);
   });
 
   test("removes a single shopping item", () => {
