@@ -10,6 +10,7 @@ const PRODUCT_CATEGORIES = [
   { id: "frozen", label: "Frozen" },
   { id: "beverages", label: "Beverages" },
   { id: "snacks", label: "Snacks" },
+  { id: "household", label: "Household" },
 ] satisfies ReadonlyArray<ProductCategoryMeta>;
 
 export const products = [
@@ -27,13 +28,13 @@ export const products = [
   },
   {
     id: "tomatoes",
-    name: "Tomatoes (Roma) - Ripe",
+    name: "Tomatoes - Ripe",
     icon: "🍅",
     category: "produce",
   },
   {
     id: "mushrooms",
-    name: "Mushrooms (White) - Fresh",
+    name: "Mushrooms (Skogs) - Fresh",
     icon: "🍄",
     category: "produce",
   },
@@ -58,7 +59,7 @@ export const products = [
   { id: "broccoli", name: "Broccoli - Crown", icon: "🥦", category: "produce" },
   {
     id: "potatoes",
-    name: "Potatoes (Russet) - 5 lb",
+    name: "Potatoes - 1 kg",
     icon: "🥔",
     category: "produce",
   },
@@ -103,7 +104,7 @@ export const products = [
 
   {
     id: "milk",
-    name: "Milk (1 Litre) - Organic",
+    name: "Milk (1 Litre) - Oatly",
     icon: "🥛",
     category: "dairy",
   },
@@ -147,6 +148,12 @@ export const products = [
     icon: "🍞",
     category: "bakery",
   },
+  {
+    id: "baguette",
+    name: "Baguette - Fresh",
+    icon: "🥖",
+    category: "bakery",
+  },
 
   {
     id: "pasta",
@@ -167,7 +174,7 @@ export const products = [
     icon: "🍶",
     category: "pantry",
   },
-  { id: "rice", name: "Rice (Jasmine) - 2 lb", icon: "🍚", category: "pantry" },
+  { id: "rice", name: "Rice (Jasmine)", icon: "🍚", category: "pantry" },
   {
     id: "olive-oil",
     name: "Olive Oil - Extra Virgin",
@@ -178,6 +185,18 @@ export const products = [
     id: "cereal",
     name: "Cereal (Oats) - Whole Grain",
     icon: "🌾",
+    category: "pantry",
+  },
+  {
+    id: "oatmeal",
+    name: "Oatmeal",
+    icon: "🥣",
+    category: "pantry",
+  },
+  {
+    id: "rice-porridge",
+    name: "Rice Porridge - Breakfast",
+    icon: "🍚",
     category: "pantry",
   },
 
@@ -206,6 +225,43 @@ export const products = [
 
   { id: "goodies", name: "Goodies (Sweets)", icon: "🍪", category: "snacks" },
   { id: "chips", name: "Chips", icon: "🍟", category: "snacks" },
+  {
+    id: "dried-fruits",
+    name: "Dried Fruits",
+    icon: "🥭",
+    category: "snacks",
+  },
+  {
+    id: "raisins",
+    name: "Raisins",
+    icon: "🍇",
+    category: "snacks",
+  },
+
+  {
+    id: "toilet-paper",
+    name: "Toilet Paper",
+    icon: "🧻",
+    category: "household",
+  },
+  {
+    id: "dishwashing-liquid",
+    name: "Dishwashing Liquid",
+    icon: "🫧",
+    category: "household",
+  },
+  {
+    id: "dishwasher-tablets",
+    name: "Dishwasher Tablets",
+    icon: "🍽️",
+    category: "household",
+  },
+  {
+    id: "liquid-laundry-detergent",
+    name: "Liquid Laundry Detergent",
+    icon: "🧴",
+    category: "household",
+  },
 ] satisfies ReadonlyArray<Product>;
 
 export const productsByCategory = PRODUCT_CATEGORIES.map((category) => ({

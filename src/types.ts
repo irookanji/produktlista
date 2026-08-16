@@ -9,7 +9,8 @@ type ProductCategory =
   | "pantry"
   | "frozen"
   | "beverages"
-  | "snacks";
+  | "snacks"
+  | "household";
 
 export type ProductCategoryMeta = {
   readonly id: ProductCategory;
