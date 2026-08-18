@@ -69,6 +69,21 @@ describe("groceryStore", () => {
     ]);
   });
 
+  test("unchecks a bought shopping item", () => {
+    toggleSelected("bread");
+    addSelectedToShoppingList();
+
+    toggleBought("bread");
+    expect(shoppingItems$.value).toEqual([
+      { productId: "bread", bought: true },
+    ]);
+
+    toggleBought("bread");
+    expect(shoppingItems$.value).toEqual([
+      { productId: "bread", bought: false },
+    ]);
+  });
+
   test("moves bought items to the bottom of the list", () => {
     toggleSelected("bread");
     toggleSelected("milk");

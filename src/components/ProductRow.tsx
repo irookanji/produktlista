@@ -159,10 +159,10 @@ export const ProductRow = (props: ProductRowProps) => {
         </span>
       </button>
 
-      {bought ? (
-        <span
-          aria-hidden="true"
-          className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#9a9aa0] text-white"
+      {bought && isShopping ? (
+        <IconButton
+          label={`Mark ${product.name} as not bought`}
+          onClick={onToggle}
         >
           <svg
             viewBox="0 0 16 16"
@@ -178,7 +178,7 @@ export const ProductRow = (props: ProductRowProps) => {
               strokeLinejoin="round"
             />
           </svg>
-        </span>
+        </IconButton>
       ) : onReorderPointerDown ? (
         <button
           type="button"
