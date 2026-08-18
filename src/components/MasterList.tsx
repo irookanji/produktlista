@@ -8,6 +8,7 @@ import {
   selectedIds$,
   toggleSelected,
 } from "../store/groceryStore.ts";
+import { InstallAppButton } from "./InstallAppButton.tsx";
 import { ProductRow } from "./ProductRow.tsx";
 
 export const MasterList = () => {
@@ -25,9 +26,12 @@ export const MasterList = () => {
           alt=""
           className="mx-auto h-auto w-full object-contain"
         />
-        <p className="mt-1 text-left text-[15px] text-muted">
-          {products.length} varor du brukar köpa
-        </p>
+        <div className="mt-1 flex items-center justify-between gap-3">
+          <p className="text-left text-[15px] text-muted">
+            {products.length} varor du brukar köpa
+          </p>
+          <InstallAppButton />
+        </div>
       </header>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-2">
