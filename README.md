@@ -4,6 +4,8 @@
 
 Mobile-first shopping list: pick staples from a Master List, then check them off while you shop.
 
+It is a PWA, so you can install it on your phone and open it from a home-screen icon. On Android, use the in-app install button (or the browser menu). On iPhone, open the site in Safari → Share → View More → Add to Home Screen.
+
 Live: [produktlista.netlify.app](https://produktlista.netlify.app/)
 
 ## Scripts

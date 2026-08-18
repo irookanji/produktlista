@@ -115,7 +115,8 @@ export const InstallAppButton = () => {
                 2
               </span>
               <span>
-                Scroll and tap <strong>Add to Home Screen</strong>
+                Tap <strong>View More</strong> (or scroll the list).{" "}
+                <strong>Add to Home Screen</strong> is not in the top row
               </span>
             </li>
             <li className="flex gap-3">
