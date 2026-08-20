@@ -1,6 +1,6 @@
 import { useSignals } from "@preact/signals-react/runtime";
 
-import produktlistaLogo from "../assets/produktlista-logo.png";
+import handlaLogo from "../assets/handla-logo.png";
 import { products, productsByCategory } from "../data/products.ts";
 import {
   addSelectedToShoppingList,
@@ -20,9 +20,9 @@ export const MasterList = () => {
   return (
     <section className="flex min-h-0 flex-1 flex-col">
       <header className="px-5 pb-2 pt-4">
-        <h1 className="sr-only">Produktlista</h1>
+        <h1 className="sr-only">Handla</h1>
         <img
-          src={produktlistaLogo}
+          src={handlaLogo}
           alt=""
           className="mx-auto h-auto w-full object-contain"
         />

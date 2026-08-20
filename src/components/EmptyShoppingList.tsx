@@ -38,7 +38,7 @@ export const EmptyShoppingList = () => (
         List is Empty
       </h2>
       <p className="mt-2 max-w-[16rem] text-center text-[15px] leading-snug text-muted">
-        Inga varor ännu! Lägg till från produktlistan.
+        Inga varor ännu! Lägg till från listan.
       </p>
 
       <button
@@ -46,7 +46,7 @@ export const EmptyShoppingList = () => (
         className="mt-8 flex h-14 w-full max-w-xs items-center justify-center rounded-full bg-brand text-[17px] font-semibold text-white active:bg-brand-dark"
         onClick={() => setActiveTab("master")}
       >
-        Till produktlistan
+        Till listan
       </button>
     </div>
   </section>

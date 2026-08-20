@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "name": "Produktlista",
-  "short_name": "Produktlista",
+  "name": "Handla",
+  "short_name": "Handla",
   "description": "Shopping list for the groceries you usually buy.",
   "start_url": "/",
   "scope": "/",

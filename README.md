@@ -1,4 +1,4 @@
-# Grocery App
+# Handla
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/76d2f8c2-58d1-4faa-985a-aef0c58e4097/deploy-status)](https://app.netlify.com/projects/produktlista/deploys)
 
