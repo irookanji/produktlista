@@ -19,22 +19,22 @@ export const MasterList = () => {
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
-      <header className="px-5 pb-2 pt-4">
-        <h1 className="sr-only">Handla</h1>
-        <img
-          src={handlaLogo}
-          alt=""
-          className="mx-auto h-auto w-full object-contain"
-        />
-        <div className="mt-1 flex items-center justify-between gap-3">
-          <p className="text-left text-[15px] text-muted">
-            {products.length} varor du brukar köpa
-          </p>
-          <InstallAppButton />
-        </div>
-      </header>
-
       <div className="min-h-0 flex-1 overflow-y-auto px-2">
+        <header className="frosted-header sticky top-0 z-30 -mx-2 px-5 pb-2 pt-[max(1rem,env(safe-area-inset-top))]">
+          <h1 className="sr-only">Handla</h1>
+          <img
+            src={handlaLogo}
+            alt=""
+            className="mx-auto h-auto w-full object-contain"
+          />
+          <div className="mt-1 flex items-center justify-between gap-3">
+            <p className="text-left text-[15px] text-muted">
+              {products.length} varor du brukar köpa
+            </p>
+            <InstallAppButton />
+          </div>
+        </header>
+
         {productsByCategory.map((category) => (
           <section
             key={category.id}
@@ -42,7 +42,7 @@ export const MasterList = () => {
           >
             <h2
               id={`category-${category.id}`}
-              className="sticky top-0 z-10 bg-white px-3 pb-1 pt-4 text-[11px] font-semibold tracking-[0.18em] text-muted uppercase"
+              className="px-3 pb-1 pt-4 text-[11px] font-semibold tracking-[0.18em] text-muted uppercase"
             >
               {category.label}
             </h2>

@@ -114,63 +114,65 @@ export const ShoppingList = () => {
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
-      <header className="px-5 pb-3 pt-6">
-        <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-          Shopping List
-        </p>
-        <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
-          Shopping List
-        </h1>
-        <p className="mt-2 text-[15px] text-muted">
-          {shoppingItems.length} {shoppingItems.length === 1 ? "item" : "items"}
-        </p>
-      </header>
-
-      <ul
-        ref={listRef}
-        className={`min-h-0 flex-1 overflow-y-auto px-2 select-none ${
+      <div
+        className={`min-h-0 flex-1 overflow-y-auto ${
           drag ? "overflow-hidden touch-none" : ""
         }`}
       >
-        {sortedItems.map((item, index) => {
-          const product = getProductById(item.productId);
-          if (!product) {
-            return null;
-          }
+        <header className="frosted-header sticky top-0 z-30 px-5 pb-3 pt-[max(1.5rem,env(safe-area-inset-top))]">
+          <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+            Shopping List
+          </p>
+          <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
+            Shopping List
+          </h1>
+          <p className="mt-2 text-[15px] text-muted">
+            {shoppingItems.length}{" "}
+            {shoppingItems.length === 1 ? "item" : "items"}
+          </p>
+        </header>
 
-          const bounds = getReorderBounds(item, sortedItems);
+        <ul ref={listRef} className="px-2 select-none">
+          {sortedItems.map((item, index) => {
+            const product = getProductById(item.productId);
+            if (!product) {
+              return null;
+            }
 
-          return (
-            <li
-              key={item.productId}
-              className="touch-callout-none"
-              style={getReorderStyle(index, drag)}
-              onContextMenu={(event) => event.preventDefault()}
-              onPointerDown={(event: PointerEvent<HTMLLIElement>) => {
-                const target = event.target;
-                if (
-                  target instanceof Element &&
-                  target.closest("[data-no-reorder]")
-                ) {
-                  return;
-                }
+            const bounds = getReorderBounds(item, sortedItems);
 
-                onItemPointerDown(index, event, bounds);
-              }}
-            >
-              <ProductRow
-                product={product}
-                bought={item.bought}
-                onToggle={() => handleToggle(item.productId)}
-                onRemove={() => removeShoppingItem(item.productId)}
-                onReorderPointerDown={(event) => {
-                  onItemPointerDown(index, event, bounds, "handle");
+            return (
+              <li
+                key={item.productId}
+                className="touch-callout-none"
+                style={getReorderStyle(index, drag)}
+                onContextMenu={(event) => event.preventDefault()}
+                onPointerDown={(event: PointerEvent<HTMLLIElement>) => {
+                  const target = event.target;
+                  if (
+                    target instanceof Element &&
+                    target.closest("[data-no-reorder]")
+                  ) {
+                    return;
+                  }
+
+                  onItemPointerDown(index, event, bounds);
                 }}
-              />
-            </li>
-          );
-        })}
-      </ul>
+              >
+                <ProductRow
+                  product={product}
+                  bought={item.bought}
+                  onToggle={() => handleToggle(item.productId)}
+                  onRemove={() => removeShoppingItem(item.productId)}
+                  onReorderPointerDown={(event) => {
+                    onItemPointerDown(index, event, bounds, "handle");
+                  }}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
 
       {hasBoughtItems && (
         <div className="shrink-0 px-4 pt-3 pb-3">
