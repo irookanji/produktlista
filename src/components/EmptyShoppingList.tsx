@@ -1,15 +1,11 @@
 import { setActiveTab } from "../store/groceryStore.ts";
-import { InstallAppButton } from "./InstallAppButton.tsx";
 
 export const EmptyShoppingList = () => (
   <section className="flex min-h-0 flex-1 flex-col px-8 pt-6">
     <header>
-      <div className="flex items-center justify-between gap-3">
-        <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-          Shopping List
-        </p>
-        <InstallAppButton />
-      </div>
+      <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+        Shopping List
+      </p>
       <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
         Shopping List
       </h1>

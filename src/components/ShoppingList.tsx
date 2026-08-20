@@ -17,7 +17,6 @@ import {
 } from "../store/groceryStore.ts";
 import type { ShoppingItem } from "../types.ts";
 import { EmptyShoppingList } from "./EmptyShoppingList.tsx";
-import { InstallAppButton } from "./InstallAppButton.tsx";
 import { ProductRow } from "./ProductRow.tsx";
 
 const getReorderStyle = (
@@ -116,12 +115,9 @@ export const ShoppingList = () => {
   return (
     <section className="flex min-h-0 flex-1 flex-col">
       <header className="px-5 pb-3 pt-6">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-            Shopping List
-          </p>
-          <InstallAppButton />
-        </div>
+        <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+          Shopping List
+        </p>
         <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
           Shopping List
         </h1>
