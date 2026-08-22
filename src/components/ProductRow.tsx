@@ -28,7 +28,9 @@ const Checkbox = ({ checked }: { checked: boolean }) => (
   <span
     aria-hidden="true"
     className={`flex size-7 shrink-0 items-center justify-center rounded-[7px] border-2 ${
-      checked ? "border-brand bg-brand text-white" : "border-[#c8c8cc] bg-white"
+      checked
+        ? "border-brand bg-brand text-white"
+        : "border-checkbox-border bg-surface"
     }`}
   >
     {checked ? (

@@ -1,11 +1,15 @@
 import { setActiveTab } from "../store/groceryStore.ts";
+import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 export const EmptyShoppingList = () => (
-  <section className="flex min-h-0 flex-1 flex-col px-8 pt-6">
+  <section className="flex min-h-0 flex-1 flex-col px-8 pt-[max(1.5rem,env(safe-area-inset-top))]">
     <header>
-      <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-        Shopping List
-      </p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+          Shopping List
+        </p>
+        <ThemeSwitcher />
+      </div>
       <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
         Shopping List
       </h1>

@@ -66,7 +66,7 @@ export const BottomNav = () => {
   return (
     <nav
       aria-label="Primary"
-      className="grid shrink-0 grid-cols-2 border-t border-line bg-white pb-[env(safe-area-inset-bottom)]"
+      className="grid shrink-0 grid-cols-2 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)]"
     >
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;

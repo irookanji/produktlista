@@ -18,6 +18,7 @@ import {
 import type { ShoppingItem } from "../types.ts";
 import { EmptyShoppingList } from "./EmptyShoppingList.tsx";
 import { ProductRow } from "./ProductRow.tsx";
+import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 const getReorderStyle = (
   index: number,
@@ -34,7 +35,7 @@ const getReorderStyle = (
       transform: `translateY(${drag.translateY}px) scale(1.02)`,
       boxShadow: "0 12px 28px rgba(0, 0, 0, 0.12)",
       borderRadius: 12,
-      background: "white",
+      background: "var(--color-surface)",
     };
   }
 
@@ -120,9 +121,12 @@ export const ShoppingList = () => {
         }`}
       >
         <header className="frosted-header sticky top-0 z-30 px-5 pb-3 pt-[max(1.5rem,env(safe-area-inset-top))]">
-          <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-            Shopping List
-          </p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
+              Shopping List
+            </p>
+            <ThemeSwitcher />
+          </div>
           <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
             Shopping List
           </h1>
@@ -178,7 +182,7 @@ export const ShoppingList = () => {
         <div className="shrink-0 px-4 pt-3 pb-3">
           <button
             type="button"
-            className="flex h-14 w-full items-center justify-center rounded-full border-2 border-danger text-[17px] font-semibold text-danger active:bg-red-50"
+            className="flex h-14 w-full items-center justify-center rounded-full border-2 border-danger text-[17px] font-semibold text-danger active:bg-red-50 dark:active:bg-red-950/40"
             onClick={clearCompleted}
           >
             Clear Completed

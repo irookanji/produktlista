@@ -7,6 +7,31 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#34C759" />
+    <script>
+      (() => {
+        try {
+          const prefs = JSON.parse(localStorage.getItem("grocery-prefs") || "{}");
+          let theme = prefs?.theme;
+          if (theme !== "light" && theme !== "dark" && theme !== "system") {
+            theme = "system";
+          }
+          const dark =
+            theme === "dark" ||
+            (theme === "system" &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches);
+          if (dark) document.documentElement.classList.add("dark");
+        } catch {}
+      })();
+    </script>
+    <style>
+      html {
+        background: #e8e8ed;
+      }
+      html.dark {
+        background: #000;
+        color-scheme: dark;
+      }
+    </style>
     <meta name="description" content="Shopping list for the groceries you usually buy." />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -1,5 +1,7 @@
 export type TabId = "master" | "shopping";
 
+export type ThemePreference = "light" | "dark" | "system";
+
 type ProductCategory =
   | "produce"
   | "fruits"
