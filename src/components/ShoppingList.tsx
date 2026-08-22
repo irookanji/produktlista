@@ -31,10 +31,10 @@ const getReorderStyle = (
   if (index === drag.fromIndex) {
     return {
       position: "relative",
-      zIndex: 20,
-      transform: `translateY(${drag.translateY}px) scale(1.02)`,
-      boxShadow: "0 12px 28px rgba(0, 0, 0, 0.12)",
-      borderRadius: 12,
+      zIndex: "var(--z-index-drag)",
+      transform: `translateY(${drag.translateY}px) scale(var(--scale-drag))`,
+      boxShadow: "var(--shadow-drag)",
+      borderRadius: "var(--radius-drag)",
       background: "var(--color-surface)",
     };
   }
@@ -56,7 +56,7 @@ const getReorderStyle = (
 
   return {
     transform: shift === 0 ? undefined : `translateY(${shift}px)`,
-    transition: "transform 160ms ease",
+    transition: "transform var(--duration-reorder) ease",
   };
 };
 
@@ -120,23 +120,18 @@ export const ShoppingList = () => {
           drag ? "overflow-hidden touch-none" : ""
         }`}
       >
-        <header className="frosted-header sticky top-0 z-30 px-5 pb-3 pt-[max(1.5rem,env(safe-area-inset-top))]">
-          <div className="flex items-center justify-between gap-3">
-            <p className="text-[11px] font-semibold tracking-[0.18em] text-muted uppercase">
-              Shopping List
-            </p>
+        <header className="frosted-header sticky top-0 z-header px-xl pt-safe-xl pb-md">
+          <div className="flex items-center justify-between gap-md">
+            <p className="kicker">Shopping List</p>
             <ThemeSwitcher />
           </div>
-          <h1 className="mt-3 text-[34px] leading-none font-bold tracking-tight text-ink">
-            Shopping List
-          </h1>
-          <p className="mt-2 text-[15px] text-muted">
+          <p className="mt-sm text-body text-muted">
             {shoppingItems.length}{" "}
             {shoppingItems.length === 1 ? "item" : "items"}
           </p>
         </header>
 
-        <ul ref={listRef} className="px-2 select-none">
+        <ul ref={listRef} className="px-sm select-none">
           {sortedItems.map((item, index) => {
             const product = getProductById(item.productId);
             if (!product) {
@@ -179,12 +174,8 @@ export const ShoppingList = () => {
       </div>
 
       {hasBoughtItems && (
-        <div className="shrink-0 px-4 pt-3 pb-3">
-          <button
-            type="button"
-            className="flex h-14 w-full items-center justify-center rounded-full border-2 border-danger text-[17px] font-semibold text-danger active:bg-red-50 dark:active:bg-red-950/40"
-            onClick={clearCompleted}
-          >
+        <div className="cta-bar">
+          <button type="button" className="btn-danger" onClick={clearCompleted}>
             Clear Completed
           </button>
         </div>

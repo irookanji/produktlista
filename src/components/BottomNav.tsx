@@ -11,7 +11,7 @@ const tabs: { id: TabId; label: string; icon: ReactNode }[] = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="size-5"
+        className="size-icon"
         fill="none"
         aria-hidden="true"
       >
@@ -40,7 +40,7 @@ const tabs: { id: TabId; label: string; icon: ReactNode }[] = [
     icon: (
       <svg
         viewBox="0 0 24 24"
-        className="size-5"
+        className="size-icon"
         fill="none"
         aria-hidden="true"
       >
@@ -66,7 +66,7 @@ export const BottomNav = () => {
   return (
     <nav
       aria-label="Primary"
-      className="grid shrink-0 grid-cols-2 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)]"
+      className="grid shrink-0 grid-cols-2 border-t border-line bg-surface pb-safe"
     >
       {tabs.map((tab) => {
         const isActive = tab.id === activeTab;
@@ -76,12 +76,12 @@ export const BottomNav = () => {
             key={tab.id}
             type="button"
             aria-current={isActive ? "page" : undefined}
-            className="flex h-19 flex-col items-center justify-center gap-0.5 text-[11px] font-medium text-ink"
+            className="flex h-nav flex-col items-center justify-center gap-2xs text-kicker font-medium text-ink"
             onClick={() => setActiveTab(tab.id)}
           >
             <span
-              className={`flex size-9 items-center justify-center rounded-lg ${
-                isActive ? "bg-tab-active text-brand" : "text-ink"
+              className={`flex size-toolbar items-center justify-center rounded-control ${
+                isActive ? "bg-brand-soft text-brand" : "text-ink"
               }`}
             >
               {tab.icon}

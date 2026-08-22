@@ -12,7 +12,7 @@ const App = () => {
 
   return (
     <div className="min-h-dvh bg-page">
-      <div className="mx-auto flex h-dvh w-full max-w-107.5 flex-col overflow-hidden bg-surface shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(0,0,0,0.45)]">
+      <div className="mx-auto flex h-dvh w-full max-w-app flex-col overflow-hidden bg-surface shadow-app">
         {activeTab === "master" ? <MasterList /> : <ShoppingList />}
         <BottomNav />
       </div>

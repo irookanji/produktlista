@@ -27,16 +27,16 @@ type ProductRowProps = MasterRowProps | ShoppingRowProps;
 const Checkbox = ({ checked }: { checked: boolean }) => (
   <span
     aria-hidden="true"
-    className={`flex size-7 shrink-0 items-center justify-center rounded-[7px] border-2 ${
+    className={`flex size-checkbox shrink-0 items-center justify-center rounded-checkbox border-control ${
       checked
-        ? "border-brand bg-brand text-white"
-        : "border-checkbox-border bg-surface"
+        ? "border-brand bg-brand text-on-brand"
+        : "border-line-strong bg-surface"
     }`}
   >
     {checked ? (
       <svg
         viewBox="0 0 16 16"
-        className="size-4"
+        className="size-icon-sm"
         fill="none"
         aria-hidden="true"
       >
@@ -65,7 +65,7 @@ const IconButton = ({
     type="button"
     aria-label={label}
     data-no-reorder=""
-    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-[#9a9aa0] text-white"
+    className="flex size-icon-button shrink-0 items-center justify-center rounded-pill bg-icon-well text-on-brand"
     onClick={(event) => {
       event.stopPropagation();
       onClick();
@@ -78,7 +78,7 @@ const IconButton = ({
 const GripIcon = () => (
   <svg
     viewBox="0 0 16 16"
-    className="size-4"
+    className="size-icon-sm"
     fill="currentColor"
     aria-hidden="true"
   >
@@ -102,7 +102,7 @@ export const ProductRow = (props: ProductRowProps) => {
 
   return (
     <div
-      className={`flex min-h-16 items-center gap-3 border-b border-line px-3 ${
+      className={`flex min-h-row items-center gap-md border-b border-line px-md ${
         bought ? "text-completed" : "text-ink"
       }`}
     >
@@ -110,7 +110,7 @@ export const ProductRow = (props: ProductRowProps) => {
         <IconButton label={`Remove ${product.name}`} onClick={props.onRemove}>
           <svg
             viewBox="0 0 16 16"
-            className="size-4"
+            className="size-icon-sm"
             fill="none"
             aria-hidden="true"
           >
@@ -126,7 +126,7 @@ export const ProductRow = (props: ProductRowProps) => {
         <button
           type="button"
           data-no-reorder=""
-          className="flex min-h-11 min-w-11 items-center justify-center"
+          className="flex min-h-hit min-w-hit items-center justify-center"
           aria-pressed={isShopping ? bought : selected}
           aria-label={
             isShopping
@@ -141,19 +141,19 @@ export const ProductRow = (props: ProductRowProps) => {
 
       <button
         type="button"
-        className="flex min-h-11 min-w-0 flex-1 items-center gap-3 py-3 text-left"
+        className="flex min-h-hit min-w-0 flex-1 items-center gap-md py-md text-left"
         onClick={onToggle}
       >
         <span
-          className={`relative text-[22px] leading-none ${bought ? "opacity-40" : ""}`}
+          className={`relative text-emoji leading-none ${bought ? "opacity-bought" : ""}`}
         >
           {product.icon}
           {bought ? (
-            <span className="absolute top-1/2 -right-1.5 -left-1.5 h-0.5 bg-completed" />
+            <span className="absolute top-1/2 -right-sm -left-sm h-2xs bg-completed" />
           ) : null}
         </span>
         <span
-          className={`truncate text-[16px] leading-snug ${
+          className={`truncate text-item leading-snug ${
             bought ? "line-through" : "font-medium"
           }`}
         >
@@ -168,7 +168,7 @@ export const ProductRow = (props: ProductRowProps) => {
         >
           <svg
             viewBox="0 0 16 16"
-            className="size-4"
+            className="size-icon-sm"
             fill="none"
             aria-hidden="true"
           >
@@ -185,7 +185,7 @@ export const ProductRow = (props: ProductRowProps) => {
         <button
           type="button"
           aria-label={`Reorder ${product.name}`}
-          className="flex size-8 shrink-0 touch-none items-center justify-center text-muted"
+          className="flex size-icon-button shrink-0 touch-none items-center justify-center text-muted"
           onClick={(event) => event.stopPropagation()}
           onPointerDown={(event) => {
             event.stopPropagation();

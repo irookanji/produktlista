@@ -2,20 +2,135 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+  Handla design tokens.
+
+  Add a named token here before using a new color, size, or shadow in
+  components. Do not put raw hex, rgb(), or one-off px values in JSX.
+
+  Core palette is 4 colors per theme. Roles below are mixes of those
+  four — except danger, which is the only extra hue (irreversible actions).
+
+  Keep in sync with:
+  - index.html blocking background (#e8e8ed / #000)
+  - index.html and manifest theme_color (#34C759)
+  - manifest background_color (#ffffff → --color-surface light)
+*/
+
 @theme {
+  /* Core — light. html.dark overrides these four (+ danger). */
   --color-brand: #34c759;
-  --color-brand-dark: #2db04e;
-  --color-danger: #e53935;
   --color-ink: #1c1c1e;
-  --color-muted: #8e8e93;
-  --color-line: #ececec;
-  --color-completed: #c7c7cc;
-  --color-tab-active: #cfeedd;
-  --color-empty-ring: #d7eef8;
-  --color-page: #e8e8ed;
   --color-surface: #ffffff;
-  --color-checkbox-border: #c8c8cc;
+  --color-page: #e8e8ed;
+
+  /* Label on brand fills (CTAs, selected checkbox). Same in both themes. */
+  --color-on-brand: #ffffff;
+
+  /* Pressed brand: brand mixed toward ink. */
+  --color-brand-emphasis: color-mix(
+    in srgb,
+    var(--color-brand) 82%,
+    var(--color-ink)
+  );
+
+  /* Tinted brand for tab chips and empty-state rings. */
+  --color-brand-soft: color-mix(
+    in srgb,
+    var(--color-brand) 22%,
+    var(--color-surface)
+  );
+
+  --color-muted: color-mix(in srgb, var(--color-ink) 45%, var(--color-surface));
+  --color-line: color-mix(in srgb, var(--color-ink) 8%, var(--color-surface));
+  --color-line-strong: color-mix(
+    in srgb,
+    var(--color-ink) 22%,
+    var(--color-surface)
+  );
+  --color-completed: color-mix(
+    in srgb,
+    var(--color-ink) 38%,
+    var(--color-surface)
+  );
+  --color-icon-well: color-mix(
+    in srgb,
+    var(--color-ink) 55%,
+    var(--color-surface)
+  );
+  --color-header: color-mix(in srgb, var(--color-surface) 68%, transparent);
+  --color-overlay: color-mix(in srgb, var(--color-ink) 40%, transparent);
+
+  /* Destructive — only non-brand hue. */
+  --color-danger: #e53935;
+  --color-danger-soft: color-mix(
+    in srgb,
+    var(--color-danger) 12%,
+    var(--color-surface)
+  );
+
   --font-sans: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+
+  /* Type scale used in the UI. Pair with .kicker / .btn-* where noted. */
+  --text-kicker: 0.6875rem;
+  --text-kicker--line-height: 1.2;
+  --text-step: 0.8125rem;
+  --text-body: 0.9375rem;
+  --text-item: 1rem;
+  --text-button: 1.0625rem;
+  --text-emoji: 1.375rem;
+  --text-title: 1.375rem;
+  --text-heading: 1.75rem;
+  --text-display: 2.125rem;
+  --text-display--line-height: 1;
+
+  --tracking-kicker: 0.18em;
+
+  /* Spacing + size. size-*, h-*, p-*, gap-* all read this scale. */
+  --spacing-2xs: 0.125rem;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 0.75rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.25rem;
+  --spacing-2xl: 1.5rem;
+  --spacing-3xl: 2rem;
+  --spacing-icon-sm: 1rem;
+  --spacing-icon: 1.25rem;
+  --spacing-checkbox: 1.75rem;
+  --spacing-icon-button: 2rem;
+  --spacing-toolbar: 2.25rem;
+  --spacing-hit: 2.75rem;
+  --spacing-button-sm: 3rem;
+  --spacing-button: 3.5rem;
+  --spacing-row: 4rem;
+  --spacing-nav: 4.75rem;
+  --spacing-empty-icon: 5rem;
+  --spacing-empty-ring: 10rem;
+
+  --radius-checkbox: 0.4375rem;
+  --radius-control: 0.5rem;
+  --radius-drag: 0.75rem;
+  --radius-sheet: 1.5rem;
+  --radius-pill: 9999px;
+
+  --shadow-app: 0 0 40px rgb(0 0 0 / 0.08);
+  --shadow-brand: 0 8px 20px
+    color-mix(in srgb, var(--color-brand) 35%, transparent);
+  --shadow-sheet: 0 16px 40px rgb(0 0 0 / 0.18);
+  --shadow-drag: 0 12px 28px rgb(0 0 0 / 0.12);
+
+  --max-width-app: 26.875rem;
+  --max-width-sheet: 24rem;
+  --max-width-empty-action: 20rem;
+  --max-width-empty-copy: 16rem;
+
+  --z-index-drag: 20;
+  --z-index-header: 30;
+  --z-index-overlay: 50;
+
+  --border-width-control: 2px;
+  --opacity-bought: 40%;
 }
 
 html {
@@ -24,15 +139,21 @@ html {
 
 html.dark {
   color-scheme: dark;
+  --color-brand: #34c759;
   --color-ink: #f5f5f7;
-  --color-muted: #98989d;
-  --color-line: #3a3a3c;
-  --color-completed: #636366;
-  --color-tab-active: #163524;
-  --color-empty-ring: #1c3a48;
-  --color-page: #000000;
   --color-surface: #1c1c1e;
-  --color-checkbox-border: #48484a;
+  --color-page: #000000;
+  --color-danger: #e53935;
+  --color-header: color-mix(in srgb, var(--color-surface) 72%, transparent);
+  --shadow-app: 0 0 40px rgb(0 0 0 / 0.45);
+  --shadow-sheet: 0 16px 40px rgb(0 0 0 / 0.45);
+}
+
+:root {
+  --blur-header: 20px;
+  --saturate-header: 1.4;
+  --scale-drag: 1.02;
+  --duration-reorder: 160ms;
 }
 
 html,
@@ -58,11 +179,91 @@ button {
 }
 
 .frosted-header {
-  background-color: rgb(255 255 255 / 0.68);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  background-color: var(--color-header);
+  backdrop-filter: blur(var(--blur-header)) saturate(var(--saturate-header));
+  -webkit-backdrop-filter: blur(var(--blur-header))
+    saturate(var(--saturate-header));
 }
 
-html.dark .frosted-header {
-  background-color: rgb(28 28 30 / 0.72);
+.pt-safe {
+  padding-top: max(var(--spacing-lg), env(safe-area-inset-top));
+}
+
+.pt-safe-xl {
+  padding-top: max(var(--spacing-2xl), env(safe-area-inset-top));
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pb-safe-lg {
+  padding-bottom: max(var(--spacing-lg), env(safe-area-inset-bottom));
+}
+
+.kicker {
+  font-size: var(--text-kicker);
+  line-height: var(--text-kicker--line-height);
+  font-weight: 600;
+  letter-spacing: var(--tracking-kicker);
+  color: var(--color-muted);
+  text-transform: uppercase;
+}
+
+.btn-primary {
+  display: flex;
+  height: var(--spacing-button);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-brand);
+  font-size: var(--text-button);
+  font-weight: 600;
+  color: var(--color-on-brand);
+}
+
+.btn-primary:active {
+  background-color: var(--color-brand-emphasis);
+}
+
+.btn-primary-shadow {
+  box-shadow: var(--shadow-brand);
+}
+
+.btn-compact {
+  height: var(--spacing-button-sm);
+}
+
+.btn-danger {
+  display: flex;
+  height: var(--spacing-button);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  border: var(--border-width-control) solid var(--color-danger);
+  background-color: transparent;
+  font-size: var(--text-button);
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+.btn-danger:active {
+  background-color: var(--color-danger-soft);
+}
+
+.btn-toolbar {
+  display: flex;
+  width: var(--spacing-toolbar);
+  height: var(--spacing-toolbar);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+}
+
+.cta-bar {
+  flex-shrink: 0;
+  padding: var(--spacing-md) var(--spacing-lg);
 }
