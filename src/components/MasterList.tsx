@@ -10,6 +10,7 @@ import {
 } from "../store/groceryStore.ts";
 import { InstallAppButton } from "./InstallAppButton.tsx";
 import { ProductRow } from "./ProductRow.tsx";
+import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 export const MasterList = () => {
   useSignals();
@@ -31,7 +32,10 @@ export const MasterList = () => {
             <p className="text-left text-[15px] text-muted">
               {products.length} varor du brukar köpa
             </p>
-            <InstallAppButton />
+            <div className="flex shrink-0 items-center gap-1">
+              <ThemeSwitcher />
+              <InstallAppButton />
+            </div>
           </div>
         </header>
 

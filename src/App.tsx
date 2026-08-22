@@ -11,8 +11,8 @@ const App = () => {
   const activeTab = activeTab$.value;
 
   return (
-    <div className="min-h-dvh bg-[#e8e8ed]">
-      <div className="mx-auto flex h-dvh w-full max-w-107.5 flex-col overflow-hidden bg-white shadow-[0_0_40px_rgba(0,0,0,0.08)]">
+    <div className="min-h-dvh bg-page">
+      <div className="mx-auto flex h-dvh w-full max-w-107.5 flex-col overflow-hidden bg-surface shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:shadow-[0_0_40px_rgba(0,0,0,0.45)]">
         {activeTab === "master" ? <MasterList /> : <ShoppingList />}
         <BottomNav />
       </div>

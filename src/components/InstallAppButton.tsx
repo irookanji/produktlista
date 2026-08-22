@@ -46,7 +46,7 @@ const InstallHelp = ({ title, children, onClose }: InstallHelpProps) => {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-sm rounded-3xl bg-white p-5 shadow-[0_16px_40px_rgba(0,0,0,0.18)]"
+        className="w-full max-w-sm rounded-3xl bg-surface p-5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.45)]"
       >
         <h2
           id={titleId}

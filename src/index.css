@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand: #34c759;
   --color-brand-dark: #2db04e;
@@ -10,7 +12,27 @@
   --color-completed: #c7c7cc;
   --color-tab-active: #cfeedd;
   --color-empty-ring: #d7eef8;
+  --color-page: #e8e8ed;
+  --color-surface: #ffffff;
+  --color-checkbox-border: #c8c8cc;
   --font-sans: "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+}
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+  --color-ink: #f5f5f7;
+  --color-muted: #98989d;
+  --color-line: #3a3a3c;
+  --color-completed: #636366;
+  --color-tab-active: #163524;
+  --color-empty-ring: #1c3a48;
+  --color-page: #000000;
+  --color-surface: #1c1c1e;
+  --color-checkbox-border: #48484a;
 }
 
 html,
@@ -23,7 +45,7 @@ body {
   margin: 0;
   font-family: var(--font-sans);
   color: var(--color-ink);
-  background: #e8e8ed;
+  background: var(--color-page);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -39,4 +61,8 @@ button {
   background-color: rgb(255 255 255 / 0.68);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
+}
+
+html.dark .frosted-header {
+  background-color: rgb(28 28 30 / 0.72);
 }
