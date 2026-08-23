@@ -1,15 +1,23 @@
 /// <reference types="bun" />
 import { beforeEach, describe, expect, test } from "bun:test";
 
+import type { Product, ShoppingItem } from "../types.ts";
+import { userDb } from "./db.ts";
 import {
+  addCustomProduct,
   addSelectedToShoppingList,
+  catalog$,
+  catalogByCategory$,
   clearCompleted,
-  hydrateShoppingList,
+  customProducts$,
+  DEFAULT_CUSTOM_ICON,
+  hydrateUserData,
   loadShoppingItems,
-  persistShoppingItems,
+  removeCustomProduct,
   removeShoppingItem,
   reorderShoppingItems,
   resetStore,
+  resolveProduct,
   STORAGE_KEY,
   selectedIds$,
   shoppingItems$,
@@ -41,9 +49,43 @@ const createMemoryStorage = (initial: Record<string, string> = {}): Storage => {
   };
 };
 
+const memory: {
+  customProducts: Product[];
+  shoppingItems: ShoppingItem[] | null;
+} = {
+  customProducts: [],
+  shoppingItems: null,
+};
+
+const installMemoryDb = (): void => {
+  memory.customProducts = [];
+  memory.shoppingItems = null;
+
+  userDb.getCustomProducts = async () => [...memory.customProducts];
+  userDb.putCustomProduct = async (product) => {
+    memory.customProducts = [
+      ...memory.customProducts.filter((entry) => entry.id !== product.id),
+      product,
+    ];
+    return true;
+  };
+  userDb.deleteCustomProduct = async (id) => {
+    memory.customProducts = memory.customProducts.filter(
+      (entry) => entry.id !== id,
+    );
+    return true;
+  };
+  userDb.getShoppingItems = async () => memory.shoppingItems;
+  userDb.putShoppingItems = async (items) => {
+    memory.shoppingItems = items;
+    return true;
+  };
+};
+
 beforeEach(() => {
   resetStore();
   globalThis.localStorage = createMemoryStorage();
+  installMemoryDb();
 });
 
 describe("groceryStore", () => {
@@ -116,9 +158,7 @@ describe("groceryStore", () => {
       "eggs",
       "bread",
     ]);
-    expect(
-      JSON.parse(globalThis.localStorage.getItem(STORAGE_KEY) ?? "[]"),
-    ).toEqual([
+    expect(memory.shoppingItems).toEqual([
       { productId: "milk", bought: false },
       { productId: "eggs", bought: false },
       { productId: "bread", bought: false },
@@ -183,24 +223,13 @@ describe("groceryStore", () => {
     ]);
   });
 
-  test("persists and hydrates the shopping list", () => {
-    const storage = createMemoryStorage();
-    persistShoppingItems(
-      [
-        { productId: "bread", bought: false },
-        { productId: "milk", bought: true },
-      ],
-      storage,
-    );
-
-    expect(storage.getItem(STORAGE_KEY)).toContain("bread");
-    expect(loadShoppingItems(storage)).toEqual([
+  test("persists and hydrates the shopping list from IndexedDB", async () => {
+    memory.shoppingItems = [
       { productId: "bread", bought: false },
       { productId: "milk", bought: true },
-    ]);
+    ];
 
-    globalThis.localStorage = storage;
-    hydrateShoppingList();
+    await hydrateUserData();
 
     expect(shoppingItems$.value).toEqual([
       { productId: "bread", bought: false },
@@ -214,5 +243,144 @@ describe("groceryStore", () => {
     });
 
     expect(loadShoppingItems(storage)).toEqual([]);
+  });
+
+  test("migrates the shopping list from localStorage once", async () => {
+    globalThis.localStorage = createMemoryStorage({
+      [STORAGE_KEY]: JSON.stringify([
+        { productId: "bread", bought: false },
+        { productId: "milk", bought: true },
+      ]),
+    });
+
+    await hydrateUserData();
+
+    const migrated: ShoppingItem[] = [
+      { productId: "bread", bought: false },
+      { productId: "milk", bought: true },
+    ];
+    expect(shoppingItems$.value).toEqual(migrated);
+    expect(memory.shoppingItems).toEqual(migrated);
+    expect(globalThis.localStorage.getItem(STORAGE_KEY)).toBeNull();
+  });
+
+  test("does not migrate localStorage when IndexedDB already has a list", async () => {
+    globalThis.localStorage = createMemoryStorage({
+      [STORAGE_KEY]: JSON.stringify([{ productId: "milk", bought: false }]),
+    });
+    memory.shoppingItems = [{ productId: "bread", bought: false }];
+
+    await hydrateUserData();
+
+    expect(shoppingItems$.value).toEqual([
+      { productId: "bread", bought: false },
+    ]);
+    expect(globalThis.localStorage.getItem(STORAGE_KEY)).toContain("milk");
+  });
+
+  test("adds a custom product to the catalog and persists it", () => {
+    const product = addCustomProduct({
+      name: "  Halloumi  ",
+      icon: "🧀",
+      category: "dairy",
+    });
+    if (!product) {
+      throw new Error("Expected custom product");
+    }
+
+    expect(product).toEqual({
+      id: product.id,
+      name: "Halloumi",
+      icon: "🧀",
+      category: "dairy",
+      custom: true,
+    });
+    expect(product.id.startsWith("custom-")).toBe(true);
+    expect(customProducts$.value).toEqual([product]);
+    expect(catalog$.value).toContainEqual(product);
+    expect(
+      catalogByCategory$.value
+        .find((category) => category.id === "dairy")
+        ?.products.some((entry) => entry.id === product.id),
+    ).toBe(true);
+    expect(memory.customProducts).toEqual([product]);
+  });
+
+  test("uses a default emoji when the icon is blank", () => {
+    const product = addCustomProduct({
+      name: "Oat milk",
+      icon: "  ",
+      category: "dairy",
+    });
+
+    expect(product?.icon).toBe(DEFAULT_CUSTOM_ICON);
+  });
+
+  test("does not add a custom product without a name", () => {
+    expect(
+      addCustomProduct({ name: "   ", icon: "🧀", category: "dairy" }),
+    ).toBeUndefined();
+    expect(customProducts$.value).toEqual([]);
+    expect(memory.customProducts).toEqual([]);
+  });
+
+  test("removes a custom product from the catalog, selection, and shopping list", () => {
+    const product = addCustomProduct({
+      name: "Halloumi",
+      icon: "🧀",
+      category: "dairy",
+    });
+    if (!product) {
+      throw new Error("Expected custom product");
+    }
+
+    toggleSelected(product.id);
+    addSelectedToShoppingList();
+    toggleSelected(product.id);
+
+    removeCustomProduct(product.id);
+
+    expect(customProducts$.value).toEqual([]);
+    expect(selectedIds$.value).toEqual([]);
+    expect(shoppingItems$.value).toEqual([]);
+    expect(memory.customProducts).toEqual([]);
+    expect(memory.shoppingItems).toEqual([]);
+    expect(resolveProduct(product.id)).toBeUndefined();
+  });
+
+  test("hydrates custom products before resolving shopping list ids", async () => {
+    const custom: Product = {
+      id: "custom-halloumi",
+      name: "Halloumi",
+      icon: "🧀",
+      category: "dairy",
+      custom: true,
+    };
+    memory.customProducts = [custom];
+    memory.shoppingItems = [{ productId: "custom-halloumi", bought: false }];
+
+    await hydrateUserData();
+
+    expect(customProducts$.value).toEqual([custom]);
+    expect(resolveProduct("custom-halloumi")).toEqual(custom);
+    expect(shoppingItems$.value).toEqual([
+      { productId: "custom-halloumi", bought: false },
+    ]);
+  });
+
+  test("drops invalid custom products on hydrate", async () => {
+    memory.customProducts = [
+      {
+        id: "bread",
+        name: "Fake",
+        icon: "x",
+        category: "dairy",
+        custom: true,
+      },
+    ];
+
+    await hydrateUserData();
+
+    expect(customProducts$.value).toEqual([]);
   });
 });

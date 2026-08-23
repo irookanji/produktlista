@@ -8,6 +8,7 @@ type MasterRowProps = {
   readonly onToggle: () => void;
   readonly bought?: never;
   readonly onRemove?: never;
+  readonly onDelete?: () => void;
   readonly onReorderPointerDown?: never;
 };
 
@@ -17,6 +18,7 @@ type ShoppingRowProps = {
   readonly onToggle: () => void;
   readonly onRemove: () => void;
   readonly selected?: never;
+  readonly onDelete?: never;
   readonly onReorderPointerDown?: (
     event: PointerEvent<HTMLButtonElement>,
   ) => void;
@@ -194,6 +196,25 @@ export const ProductRow = (props: ProductRowProps) => {
         >
           <GripIcon />
         </button>
+      ) : !isShopping && props.onDelete ? (
+        <IconButton
+          label={`Remove ${product.name} from master list`}
+          onClick={props.onDelete}
+        >
+          <svg
+            viewBox="0 0 16 16"
+            className="size-icon-sm"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 4l8 8M12 4l-8 8"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </IconButton>
       ) : null}
     </div>
   );

@@ -1,7 +1,6 @@
 import { useSignals } from "@preact/signals-react/runtime";
 import { type CSSProperties, type PointerEvent, useRef } from "react";
 
-import { getProductById } from "../data/products.ts";
 import {
   type PointerReorderDrag,
   usePointerReorder,
@@ -11,6 +10,7 @@ import {
   hasBoughtItems$,
   removeShoppingItem,
   reorderShoppingItems,
+  resolveProduct,
   shoppingItems$,
   sortedShoppingItems$,
   toggleBought,
@@ -133,7 +133,7 @@ export const ShoppingList = () => {
 
         <ul ref={listRef} className="px-sm select-none">
           {sortedItems.map((item, index) => {
-            const product = getProductById(item.productId);
+            const product = resolveProduct(item.productId);
             if (!product) {
               return null;
             }

@@ -1,6 +1,10 @@
-import type { Product, ProductCategoryMeta } from "../types.ts";
+import type {
+  Product,
+  ProductCategory,
+  ProductCategoryMeta,
+} from "../types.ts";
 
-const PRODUCT_CATEGORIES = [
+export const productCategories = [
   { id: "produce", label: "Produce" },
   { id: "fruits", label: "Fruits" },
   { id: "dairy", label: "Dairy & Eggs" },
@@ -12,6 +16,9 @@ const PRODUCT_CATEGORIES = [
   { id: "snacks", label: "Snacks" },
   { id: "household", label: "Household" },
 ] satisfies ReadonlyArray<ProductCategoryMeta>;
+
+export const isProductCategory = (value: unknown): value is ProductCategory =>
+  productCategories.some((category) => category.id === value);
 
 export const products = [
   {
@@ -342,7 +349,7 @@ export const products = [
   },
 ] satisfies ReadonlyArray<Product>;
 
-export const productsByCategory = PRODUCT_CATEGORIES.map((category) => ({
+export const productsByCategory = productCategories.map((category) => ({
   ...category,
   products: products.filter((product) => product.category === category.id),
 }));

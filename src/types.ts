@@ -2,7 +2,7 @@ export type TabId = "master" | "shopping";
 
 export type ThemePreference = "light" | "dark" | "system";
 
-type ProductCategory =
+export type ProductCategory =
   | "produce"
   | "fruits"
   | "dairy"
@@ -24,6 +24,7 @@ export type Product = {
   readonly name: string;
   readonly icon: string;
   readonly category: ProductCategory;
+  readonly custom?: true;
 };
 
 export type ShoppingItem = {
