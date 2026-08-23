@@ -10,24 +10,17 @@ const CUSTOM_PRODUCTS_STORE = "customProducts";
 const SHOPPING_LIST_STORE = "shoppingList";
 const SHOPPING_LIST_KEY = "items";
 
-interface HandlaDB extends DBSchema {
-  customProducts: {
-    key: string;
-    value: Product;
-  };
-  shoppingList: {
-    key: string;
-    value: ShoppingItem[];
-  };
-}
+type ProductId = Product["id"];
 
-export type UserDb = {
-  getCustomProducts: () => Promise<Product[]>;
-  putCustomProduct: (product: Product) => Promise<boolean>;
-  deleteCustomProduct: (id: string) => Promise<boolean>;
-  getShoppingItems: () => Promise<ShoppingItem[] | null>;
-  putShoppingItems: (items: ShoppingItem[]) => Promise<boolean>;
+type Store<K extends IDBValidKey, V> = {
+  key: K;
+  value: V;
 };
+
+interface HandlaDB extends DBSchema {
+  customProducts: Store<ProductId, Product>;
+  shoppingList: Store<typeof SHOPPING_LIST_KEY, ShoppingItem[]>;
+}
 
 let dbPromise: Promise<IDBPDatabase<HandlaDB> | null> | undefined;
 let writeChain = Promise.resolve();
@@ -185,6 +178,14 @@ const putShoppingItems = async (items: ShoppingItem[]): Promise<boolean> => {
   } catch {
     return false;
   }
+};
+
+type UserDb = {
+  getCustomProducts: () => Promise<Product[]>;
+  putCustomProduct: (product: Product) => Promise<boolean>;
+  deleteCustomProduct: (id: string) => Promise<boolean>;
+  getShoppingItems: () => Promise<ShoppingItem[] | null>;
+  putShoppingItems: (items: ShoppingItem[]) => Promise<boolean>;
 };
 
 export const userDb: UserDb = {
