@@ -1,35 +1,7 @@
 import { type ReactNode, useCallback, useId, useState } from "react";
 
 import { usePwaInstall } from "../hooks/usePwaInstall.ts";
-
-const DownloadIcon = () => (
-  <svg viewBox="0 0 24 24" className="size-icon" fill="none" aria-hidden="true">
-    <path
-      d="M12 4v10m0 0-3.5-3.5M12 14l3.5-3.5M6 18h12"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
-const ShareIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="size-icon text-brand"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path
-      d="M12 15V4m0 0-3.5 3.5M12 4l3.5 3.5M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
+import { DownloadIcon, ShareIcon } from "../icons.tsx";
 
 type InstallHelpProps = {
   readonly title: string;
@@ -104,7 +76,7 @@ export const InstallAppButton = () => {
           <ol className="mt-lg space-y-md text-body leading-snug text-ink">
             <li className="flex gap-md">
               <span className="mt-2xs shrink-0">
-                <ShareIcon />
+                <ShareIcon className="size-icon text-brand" />
               </span>
               <span>
                 Tap the <strong>Share</strong> button in Safari

@@ -1,5 +1,6 @@
 import type { PointerEvent, ReactNode } from "react";
 
+import { CheckIcon, CloseIcon, GripIcon } from "../icons.tsx";
 import type { Product } from "../types.ts";
 
 type MasterRowProps = {
@@ -35,22 +36,7 @@ const Checkbox = ({ checked }: { checked: boolean }) => (
         : "border-line-strong bg-surface"
     }`}
   >
-    {checked ? (
-      <svg
-        viewBox="0 0 16 16"
-        className="size-icon-sm"
-        fill="none"
-        aria-hidden="true"
-      >
-        <path
-          d="M3.5 8.2 6.4 11.2 12.5 4.8"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ) : null}
+    {checked ? <CheckIcon /> : null}
   </span>
 );
 
@@ -77,22 +63,6 @@ const IconButton = ({
   </button>
 );
 
-const GripIcon = () => (
-  <svg
-    viewBox="0 0 16 16"
-    className="size-icon-sm"
-    fill="currentColor"
-    aria-hidden="true"
-  >
-    <circle cx="6" cy="3.5" r="1.15" />
-    <circle cx="10" cy="3.5" r="1.15" />
-    <circle cx="6" cy="8" r="1.15" />
-    <circle cx="10" cy="8" r="1.15" />
-    <circle cx="6" cy="12.5" r="1.15" />
-    <circle cx="10" cy="12.5" r="1.15" />
-  </svg>
-);
-
 export const ProductRow = (props: ProductRowProps) => {
   const { product, onToggle } = props;
   const isShopping = "bought" in props && typeof props.bought === "boolean";
@@ -110,19 +80,7 @@ export const ProductRow = (props: ProductRowProps) => {
     >
       {bought && isShopping ? (
         <IconButton label={`Remove ${product.name}`} onClick={props.onRemove}>
-          <svg
-            viewBox="0 0 16 16"
-            className="size-icon-sm"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <CloseIcon />
         </IconButton>
       ) : (
         <button
@@ -168,20 +126,7 @@ export const ProductRow = (props: ProductRowProps) => {
           label={`Mark ${product.name} as not bought`}
           onClick={onToggle}
         >
-          <svg
-            viewBox="0 0 16 16"
-            className="size-icon-sm"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M3.5 8.2 6.4 11.2 12.5 4.8"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <CheckIcon />
         </IconButton>
       ) : onReorderPointerDown ? (
         <button
@@ -201,19 +146,7 @@ export const ProductRow = (props: ProductRowProps) => {
           label={`Remove ${product.name} from master list`}
           onClick={props.onDelete}
         >
-          <svg
-            viewBox="0 0 16 16"
-            className="size-icon-sm"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M4 4l8 8M12 4l-8 8"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <CloseIcon />
         </IconButton>
       ) : null}
     </div>
