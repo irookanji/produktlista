@@ -15,6 +15,7 @@
   - index.html blocking background (#e8e8ed / #000)
   - index.html and manifest theme_color (#34C759)
   - manifest background_color (#ffffff → --color-surface light)
+  - docs/DESIGN.md (roles and rules; values stay here)
 */
 
 @theme {

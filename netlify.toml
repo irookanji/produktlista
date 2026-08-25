@@ -11,3 +11,8 @@
   for = "/sw.js"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/"
+  status = 404

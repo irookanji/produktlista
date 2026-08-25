@@ -8,7 +8,7 @@ It is a PWA, so you can install it on your phone and open it from a home-screen 
 
 Live: [produktlista.netlify.app](https://produktlista.netlify.app/)
 
-Next: [ROADMAP.md](./ROADMAP.md)
+Next: [ROADMAP.md](./ROADMAP.md). Design: [docs/DESIGN.md](./docs/DESIGN.md) (local preview: `bun run dev` → `/docs/DESIGN.html`).
 
 
 ## Scripts

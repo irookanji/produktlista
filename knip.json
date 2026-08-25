@@ -1,3 +1,4 @@
 {
-  "ignore": ["public/sw.js"]
+  "ignore": ["public/sw.js"],
+  "entry": ["src/DesignPreview.tsx"]
 }
