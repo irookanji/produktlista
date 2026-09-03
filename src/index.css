@@ -173,6 +173,7 @@ body {
 
 button {
   font-family: inherit;
+  text-box: trim-both cap alphabetic;
 }
 
 .touch-callout-none {
