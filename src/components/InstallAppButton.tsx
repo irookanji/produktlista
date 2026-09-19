@@ -96,7 +96,7 @@ export const InstallAppButton = () => {
                 3
               </span>
               <span>
-                Tap <strong>Add</strong> to get the candy icon on your home
+                Tap <strong>Add</strong> to get the Handla icon on your home
                 screen
               </span>
             </li>

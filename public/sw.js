@@ -1,4 +1,4 @@
-const CACHE_NAME = "handla-v1";
+const CACHE_NAME = "handla-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());
