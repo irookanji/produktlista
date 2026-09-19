@@ -1,4 +1,5 @@
 import { type ReactNode, useCallback, useId, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { usePwaInstall } from "../hooks/usePwaInstall.ts";
 import { DownloadIcon, ShareIcon } from "../icons.tsx";
@@ -12,7 +13,7 @@ type InstallHelpProps = {
 const InstallHelp = ({ title, children, onClose }: InstallHelpProps) => {
   const titleId = useId();
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-overlay flex items-end justify-center bg-overlay p-lg pb-safe-lg sm:items-center">
       <div
         role="dialog"
@@ -35,7 +36,8 @@ const InstallHelp = ({ title, children, onClose }: InstallHelpProps) => {
           Got it
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 
