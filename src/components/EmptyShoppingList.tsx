@@ -1,5 +1,6 @@
 import { EmptyCartIcon } from "../icons.tsx";
 import { setActiveTab } from "../store/groceryStore.ts";
+import { ShareListButton } from "./ShareListButton.tsx";
 import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 export const EmptyShoppingList = () => (
@@ -7,7 +8,10 @@ export const EmptyShoppingList = () => (
     <header>
       <div className="flex items-center justify-between gap-md">
         <p className="kicker">Shopping List</p>
-        <ThemeSwitcher />
+        <div className="flex shrink-0 items-center gap-sm">
+          <ShareListButton />
+          <ThemeSwitcher />
+        </div>
       </div>
       <h1 className="mt-md text-display font-bold tracking-tight text-ink">
         Shopping List

@@ -16,3 +16,8 @@
   from = "/docs/*"
   to = "/"
   status = 404
+
+[[redirects]]
+  from = "/h/*"
+  to = "/index.html"
+  status = 200

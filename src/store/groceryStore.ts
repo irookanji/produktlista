@@ -7,12 +7,18 @@ import {
   productsByCategory,
 } from "../data/products.ts";
 import type {
+  HouseholdSnapshot,
   Product,
   ProductCategory,
   ShoppingItem,
   TabId,
 } from "../types.ts";
 import { SHOPPING_LIST_STORAGE_KEY, userDb } from "./db.ts";
+import {
+  hydrateHousehold,
+  pushHousehold,
+  resetHouseholdSync,
+} from "./householdSync.ts";
 
 export const STORAGE_KEY = SHOPPING_LIST_STORAGE_KEY;
 export const DEFAULT_CUSTOM_ICON = "🛒";
@@ -21,6 +27,7 @@ export const activeTab$ = signal<TabId>("master");
 export const selectedIds$ = signal<string[]>([]);
 export const shoppingItems$ = signal<ShoppingItem[]>([]);
 export const customProducts$ = signal<Product[]>([]);
+export const householdToken$ = signal<string | null>(null);
 
 export const selectedCount$ = computed(() => selectedIds$.value.length);
 
@@ -58,7 +65,7 @@ export const hasBoughtItems$ = computed(() =>
   shoppingItems$.value.some((item) => item.bought),
 );
 
-const isShoppingItem = (value: unknown): value is ShoppingItem => {
+export const isShoppingItem = (value: unknown): value is ShoppingItem => {
   if (typeof value !== "object" || value === null) {
     return false;
   }
@@ -71,7 +78,7 @@ const isShoppingItem = (value: unknown): value is ShoppingItem => {
   );
 };
 
-const isCustomProduct = (value: unknown): value is Product => {
+export const isCustomProduct = (value: unknown): value is Product => {
   if (typeof value !== "object" || value === null) {
     return false;
   }
@@ -111,6 +118,14 @@ export const loadShoppingItems = (
 const commitShoppingItems = (items: ShoppingItem[]): void => {
   shoppingItems$.value = items;
   void userDb.putShoppingItems(items);
+  void pushHousehold();
+};
+
+export const applyHouseholdSnapshot = (snapshot: HouseholdSnapshot): void => {
+  customProducts$.value = snapshot.customProducts.filter(isCustomProduct);
+  void userDb.replaceCustomProducts(customProducts$.value);
+  shoppingItems$.value = snapshot.items.filter(isShoppingItem);
+  void userDb.putShoppingItems(shoppingItems$.value);
 };
 
 export const hydrateUserData = async (): Promise<void> => {
@@ -129,17 +144,20 @@ export const hydrateUserData = async (): Promise<void> => {
         // Ignore missing storage.
       }
     }
-    return;
+  } else {
+    shoppingItems$.value = storedShopping.filter(isShoppingItem);
   }
 
-  shoppingItems$.value = storedShopping.filter(isShoppingItem);
+  await hydrateHousehold();
 };
 
 export const resetStore = (): void => {
+  resetHouseholdSync();
   activeTab$.value = "master";
   selectedIds$.value = [];
   shoppingItems$.value = [];
   customProducts$.value = [];
+  householdToken$.value = null;
 };
 
 export const setActiveTab = (tab: TabId): void => {
@@ -237,6 +255,7 @@ export const addCustomProduct = (
 
   customProducts$.value = [...customProducts$.value, product];
   void userDb.putCustomProduct(product);
+  void pushHousehold();
   return product;
 };
 
@@ -254,6 +273,8 @@ export const removeCustomProduct = (productId: string): void => {
     commitShoppingItems(
       shoppingItems$.value.filter((item) => item.productId !== productId),
     );
+  } else {
+    void pushHousehold();
   }
 
   void userDb.deleteCustomProduct(productId);

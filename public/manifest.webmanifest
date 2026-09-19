@@ -7,6 +7,10 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": ["focus-existing", "auto"]
+  },
   "background_color": "#ffffff",
   "theme_color": "#34C759",
   "lang": "sv",

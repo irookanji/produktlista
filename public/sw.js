@@ -1,4 +1,4 @@
-const CACHE_NAME = "handla-v2";
+const CACHE_NAME = "handla-v3";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());
@@ -28,10 +28,15 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  const pathname = new URL(request.url).pathname;
+  if (pathname.startsWith("/api/")) {
+    return;
+  }
+
   event.respondWith(
     fetch(request)
       .then((response) => {
-        if (response.ok) {
+        if (response.ok && !pathname.startsWith("/api/")) {
           const copy = response.clone();
           void caches.open(CACHE_NAME).then((cache) => {
             void cache.put(request, copy);

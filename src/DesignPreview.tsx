@@ -288,6 +288,20 @@ const DesignPreview = () => {
               </button>
               <button
                 type="button"
+                aria-label="Share list"
+                className="btn-toolbar text-ink active:bg-line"
+              >
+                <ShareIcon />
+              </button>
+              <button
+                type="button"
+                aria-label="Copy share link"
+                className="btn-toolbar bg-brand text-on-brand"
+              >
+                <ShareIcon />
+              </button>
+              <button
+                type="button"
                 aria-label="Install app"
                 className="btn-toolbar bg-brand text-on-brand"
               >
@@ -301,6 +315,9 @@ const DesignPreview = () => {
                 <DeviceIcon />
               </button>
             </div>
+            <p className="rounded-pill bg-ink px-xl py-sm text-center text-step font-semibold text-surface">
+              Link copied
+            </p>
           </div>
         </Section>
 

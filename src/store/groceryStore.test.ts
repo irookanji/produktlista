@@ -52,14 +52,17 @@ const createMemoryStorage = (initial: Record<string, string> = {}): Storage => {
 const memory: {
   customProducts: Product[];
   shoppingItems: ShoppingItem[] | null;
+  householdToken: string | null;
 } = {
   customProducts: [],
   shoppingItems: null,
+  householdToken: null,
 };
 
 const installMemoryDb = (): void => {
   memory.customProducts = [];
   memory.shoppingItems = null;
+  memory.householdToken = null;
 
   userDb.getCustomProducts = async () => [...memory.customProducts];
   userDb.putCustomProduct = async (product) => {
@@ -75,9 +78,18 @@ const installMemoryDb = (): void => {
     );
     return true;
   };
+  userDb.replaceCustomProducts = async (products) => {
+    memory.customProducts = [...products];
+    return true;
+  };
   userDb.getShoppingItems = async () => memory.shoppingItems;
   userDb.putShoppingItems = async (items) => {
     memory.shoppingItems = items;
+    return true;
+  };
+  userDb.getHouseholdToken = async () => memory.householdToken;
+  userDb.setHouseholdToken = async (token) => {
+    memory.householdToken = token;
     return true;
   };
 };

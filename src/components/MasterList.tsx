@@ -14,6 +14,7 @@ import {
 import { AddProductSheet } from "./AddProductSheet.tsx";
 import { InstallAppButton } from "./InstallAppButton.tsx";
 import { ProductRow } from "./ProductRow.tsx";
+import { ShareListButton } from "./ShareListButton.tsx";
 import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 export const MasterList = () => {
@@ -43,6 +44,7 @@ export const MasterList = () => {
               >
                 <PlusIcon />
               </button>
+              <ShareListButton />
               <ThemeSwitcher />
               <InstallAppButton />
             </div>

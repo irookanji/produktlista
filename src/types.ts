@@ -31,3 +31,9 @@ export type ShoppingItem = {
   readonly productId: string;
   readonly bought: boolean;
 };
+
+export type HouseholdSnapshot = {
+  readonly items: ShoppingItem[];
+  readonly customProducts: Product[];
+  readonly updatedAt: number;
+};

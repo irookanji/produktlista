@@ -3,12 +3,15 @@ import { type DBSchema, type IDBPDatabase, openDB } from "idb";
 import type { Product, ShoppingItem } from "../types.ts";
 
 export const SHOPPING_LIST_STORAGE_KEY = "grocery-shopping-list";
+const HOUSEHOLD_TOKEN_STORAGE_KEY = "handla-household-token";
 
 const DB_NAME = "handla";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const CUSTOM_PRODUCTS_STORE = "customProducts";
 const SHOPPING_LIST_STORE = "shoppingList";
+const META_STORE = "meta";
 const SHOPPING_LIST_KEY = "items";
+const HOUSEHOLD_TOKEN_KEY = "householdToken";
 
 type ProductId = Product["id"];
 
@@ -20,6 +23,7 @@ type Store<K extends IDBValidKey, V> = {
 interface HandlaDB extends DBSchema {
   customProducts: Store<ProductId, Product>;
   shoppingList: Store<typeof SHOPPING_LIST_KEY, ShoppingItem[]>;
+  meta: Store<string, string>;
 }
 
 let dbPromise: Promise<IDBPDatabase<HandlaDB> | null> | undefined;
@@ -52,6 +56,9 @@ const getDb = async (): Promise<IDBPDatabase<HandlaDB> | null> => {
         }
         if (!db.objectStoreNames.contains(SHOPPING_LIST_STORE)) {
           db.createObjectStore(SHOPPING_LIST_STORE);
+        }
+        if (!db.objectStoreNames.contains(META_STORE)) {
+          db.createObjectStore(META_STORE);
         }
       },
     })
@@ -180,18 +187,106 @@ const putShoppingItems = async (items: ShoppingItem[]): Promise<boolean> => {
   }
 };
 
+const replaceCustomProducts = async (products: Product[]): Promise<boolean> => {
+  try {
+    await enqueueWrite(async () => {
+      const db = await getDb();
+      if (!db) {
+        memoryCustomProducts = [...products];
+        return;
+      }
+
+      const tx = db.transaction(CUSTOM_PRODUCTS_STORE, "readwrite");
+      await tx.store.clear();
+      await Promise.all(products.map((product) => tx.store.put(product)));
+      await tx.done;
+    });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const readFallbackHouseholdToken = (): string | null => {
+  try {
+    return (
+      globalThis.localStorage?.getItem(HOUSEHOLD_TOKEN_STORAGE_KEY) ?? null
+    );
+  } catch {
+    return null;
+  }
+};
+
+const writeFallbackHouseholdToken = (token: string | null): void => {
+  try {
+    if (token) {
+      globalThis.localStorage?.setItem(HOUSEHOLD_TOKEN_STORAGE_KEY, token);
+      return;
+    }
+
+    globalThis.localStorage?.removeItem(HOUSEHOLD_TOKEN_STORAGE_KEY);
+  } catch {
+    // Ignore missing storage or quota errors.
+  }
+};
+
+let memoryHouseholdToken: string | null = null;
+
+const getHouseholdToken = async (): Promise<string | null> => {
+  const db = await getDb();
+  if (!db) {
+    return memoryHouseholdToken ?? readFallbackHouseholdToken();
+  }
+
+  try {
+    const stored = await db.get(META_STORE, HOUSEHOLD_TOKEN_KEY);
+    return stored ?? null;
+  } catch {
+    return memoryHouseholdToken ?? readFallbackHouseholdToken();
+  }
+};
+
+const setHouseholdToken = async (token: string | null): Promise<boolean> => {
+  try {
+    await enqueueWrite(async () => {
+      const db = await getDb();
+      if (!db) {
+        memoryHouseholdToken = token;
+        writeFallbackHouseholdToken(token);
+        return;
+      }
+
+      if (token) {
+        await db.put(META_STORE, token, HOUSEHOLD_TOKEN_KEY);
+        return;
+      }
+
+      await db.delete(META_STORE, HOUSEHOLD_TOKEN_KEY);
+    });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 type UserDb = {
   getCustomProducts: () => Promise<Product[]>;
   putCustomProduct: (product: Product) => Promise<boolean>;
   deleteCustomProduct: (id: string) => Promise<boolean>;
+  replaceCustomProducts: (products: Product[]) => Promise<boolean>;
   getShoppingItems: () => Promise<ShoppingItem[] | null>;
   putShoppingItems: (items: ShoppingItem[]) => Promise<boolean>;
+  getHouseholdToken: () => Promise<string | null>;
+  setHouseholdToken: (token: string | null) => Promise<boolean>;
 };
 
 export const userDb: UserDb = {
   getCustomProducts,
   putCustomProduct,
   deleteCustomProduct,
+  replaceCustomProducts,
   getShoppingItems,
   putShoppingItems,
+  getHouseholdToken,
+  setHouseholdToken,
 };

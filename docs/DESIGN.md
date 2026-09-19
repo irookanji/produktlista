@@ -76,8 +76,10 @@ Reuse the CSS classes in `src/index.css` and the React components in `src/compon
 | `ProductRow` | Checkbox or close; emoji + name; grip / check / delete |
 | `BottomNav` | Two tabs, `h-nav`, active chip `bg-brand-soft text-brand` |
 | `ThemeSwitcher` | Cycles light → dark → system |
+| `ShareListButton` | Header toolbar: outline until bound, then brand fill. Copies the household URL. `CheckIcon` while “Link copied” |
 | `InstallAppButton` | Brand toolbar control; hidden when the PWA is installed |
 | `AddProductSheet` | Overlay + sheet; Escape and scrim close |
+| Copy toast | `role="status"` pill above the nav (`bg-ink text-surface`, `--text-step`). “Link copied” / “Couldn't copy link” |
 | `.btn-primary` | Brand pill CTA |
 | `.btn-primary-shadow` | Add-to-list CTA |
 | `.btn-compact` | Shorter primary (sheets) |
@@ -95,9 +97,9 @@ All glyphs are named exports in [`src/icons.tsx`](../src/icons.tsx). Pass `class
 | `CartIcon` | `size-icon` | Shopping List tab |
 | `EmptyCartIcon` | `size-empty-icon` | Empty shopping illustration (`viewBox` 88, not a 24px glyph) |
 | `DownloadIcon` | `size-icon` | Install app |
-| `ShareIcon` | `size-icon` | iOS install help (add `text-brand`) |
+| `ShareIcon` | `size-icon` | Share list toolbar; iOS install help (add `text-brand`) |
 | `PlusIcon` | `size-icon` | Add custom item |
-| `CheckIcon` | `size-icon-sm` | Checkbox, mark-not-bought |
+| `CheckIcon` | `size-icon-sm` | Checkbox, mark-not-bought; pass `size-icon` on Share after copy |
 | `CloseIcon` | `size-icon-sm` | Remove item |
 | `GripIcon` | `size-icon-sm` | Reorder handle |
 | `SunIcon` / `MoonIcon` / `DeviceIcon` | `size-icon` | Theme switcher |

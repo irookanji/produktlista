@@ -18,6 +18,7 @@ import {
 import type { ShoppingItem } from "../types.ts";
 import { EmptyShoppingList } from "./EmptyShoppingList.tsx";
 import { ProductRow } from "./ProductRow.tsx";
+import { ShareListButton } from "./ShareListButton.tsx";
 import { ThemeSwitcher } from "./ThemeSwitcher.tsx";
 
 const getReorderStyle = (
@@ -123,7 +124,10 @@ export const ShoppingList = () => {
         <header className="frosted-header sticky top-0 z-header px-xl pt-safe-xl pb-md">
           <div className="flex items-center justify-between gap-md">
             <p className="kicker">Shopping List</p>
-            <ThemeSwitcher />
+            <div className="flex shrink-0 items-center gap-sm">
+              <ShareListButton />
+              <ThemeSwitcher />
+            </div>
           </div>
           <p className="mt-sm text-body text-muted">
             {shoppingItems.length}{" "}
