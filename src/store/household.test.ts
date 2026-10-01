@@ -5,7 +5,6 @@ import {
   createHouseholdToken,
   HOUSEHOLD_TOKEN_LENGTH,
   isHouseholdSnapshot,
-  mergeHouseholdSnapshots,
   parseHouseholdTokenFromPath,
 } from "./household.ts";
 
@@ -37,46 +36,5 @@ describe("household", () => {
         updatedAt: 1,
       }),
     ).toBe(true);
-  });
-
-  test("merges local extras into the remote household", () => {
-    const merged = mergeHouseholdSnapshots(
-      {
-        items: [
-          { productId: "bread", bought: true },
-          { productId: "eggs", bought: false },
-        ],
-        customProducts: [
-          {
-            id: "custom-halloumi",
-            name: "Halloumi",
-            icon: "🧀",
-            category: "dairy",
-            custom: true,
-          },
-        ],
-        updatedAt: 10,
-      },
-      {
-        items: [{ productId: "bread", bought: false }],
-        customProducts: [],
-        updatedAt: 20,
-      },
-    );
-
-    expect(merged.items).toEqual([
-      { productId: "bread", bought: true },
-      { productId: "eggs", bought: false },
-    ]);
-    expect(merged.customProducts).toEqual([
-      {
-        id: "custom-halloumi",
-        name: "Halloumi",
-        icon: "🧀",
-        category: "dairy",
-        custom: true,
-      },
-    ]);
-    expect(merged.updatedAt).toBeGreaterThanOrEqual(20);
   });
 });

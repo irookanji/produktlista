@@ -65,7 +65,7 @@ export const hasBoughtItems$ = computed(() =>
   shoppingItems$.value.some((item) => item.bought),
 );
 
-export const isShoppingItem = (value: unknown): value is ShoppingItem => {
+const isShoppingItem = (value: unknown): value is ShoppingItem => {
   if (typeof value !== "object" || value === null) {
     return false;
   }
@@ -78,7 +78,7 @@ export const isShoppingItem = (value: unknown): value is ShoppingItem => {
   );
 };
 
-export const isCustomProduct = (value: unknown): value is Product => {
+const isCustomProduct = (value: unknown): value is Product => {
   if (typeof value !== "object" || value === null) {
     return false;
   }

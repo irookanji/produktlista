@@ -6,8 +6,6 @@ import {
   applyHouseholdSnapshot,
   customProducts$,
   householdToken$,
-  isCustomProduct,
-  isShoppingItem,
   shoppingItems$,
 } from "./groceryStore.ts";
 import {
@@ -15,7 +13,6 @@ import {
   HOUSEHOLD_POLL_MS,
   householdSharePath,
   isHouseholdToken,
-  mergeHouseholdSnapshots,
   parseHouseholdTokenFromPath,
 } from "./household.ts";
 import { householdApi } from "./householdApi.ts";
@@ -121,19 +118,9 @@ const joinHousehold = async (token: string): Promise<boolean> => {
     return false;
   }
 
-  const local: HouseholdSnapshot = {
-    items: shoppingItems$.value.filter(isShoppingItem),
-    customProducts: customProducts$.value.filter(isCustomProduct),
-    updatedAt: Date.now(),
-  };
-
-  const merged = mergeHouseholdSnapshots(local, result.snapshot);
-  applyHouseholdSnapshot(merged);
+  applyHouseholdSnapshot(result.snapshot);
   await bindToken(token);
-  const stored = await householdApi.put(token, merged);
-  if (stored.ok) {
-    lastPushedAt = merged.updatedAt;
-  }
+  lastPushedAt = result.snapshot.updatedAt;
   return true;
 };
 

@@ -1,6 +1,6 @@
 # Roadmap
 
-Next features for Handla, in a sensible order. The app stays a mobile-first PWA: React 19, Preact Signals, Tailwind 4, Vite, bun. Local-first until shared lists (3).
+Next features for Handla, in a sensible order. The app stays a mobile-first PWA: React 19, Preact Signals, Tailwind 4, Vite, bun.
 
 ## Next
 
@@ -23,17 +23,11 @@ UI and catalog copy in Swedish, German, English, and Kazakh.
 - No `i18next` unless the file set gets large — a typed `t(key)` helper is enough
 - Default: device language if it matches, otherwise English
 
-### 3. Shared shopping list
-
-One list for the household: if she adds milk, you see it on your phone and can add or remove too.
-
-- Join via a short code or link (no accounts to start)
-- Sync shopping list both ways: add, remove, bought, reorder
-- Custom products created on one device must resolve on the others
-- IndexedDB stays the offline cache; a small backend is the source of truth for the shared list
-- Master List catalog can stay per-device until we know we want that shared too
-
 ## Done
+
+### Shared shopping list
+
+Share copies a durable `/h/<16-char>` link. Opening it binds that household (Android PWA or iOS Safari). Same URL on every later Share. Shopping items and custom products sync through a Netlify Function + Blobs; IndexedDB stays the offline cache. No accounts. Master List catalog stays per-device.
 
 ### IndexedDB for user data
 

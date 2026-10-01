@@ -179,6 +179,34 @@ describe("householdSync", () => {
     ]);
   });
 
+  test("opening a share link replaces leftover local items instead of merging them", async () => {
+    toggleSelected("milk");
+    addSelectedToShoppingList();
+    const url = await shareHousehold();
+    const token = parseHouseholdTokenFromPath(new URL(url ?? "").pathname);
+    if (!token) {
+      throw new Error("Expected share token");
+    }
+
+    resetStore();
+    memory.customProducts = [];
+    memory.shoppingItems = null;
+    memory.householdToken = null;
+
+    toggleSelected("bread");
+    addSelectedToShoppingList();
+
+    await hydrateHousehold(`/h/${token}`);
+
+    expect(householdToken$.value).toBe(token);
+    expect(shoppingItems$.value).toEqual([
+      { productId: "milk", bought: false },
+    ]);
+    expect(blobs.get(token)?.items).toEqual([
+      { productId: "milk", bought: false },
+    ]);
+  });
+
   test("does not join a missing share link", async () => {
     await hydrateHousehold("/h/k7Qm2nP9xL4cR8w2");
 
